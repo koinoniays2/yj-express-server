@@ -4,7 +4,7 @@ const app = express();
 
 // 라우팅 부분
 app.get("/", (req, res)=>{
-    res.send("root diretory git");
+    res.send("root diretory ci/cd");
 })
 app.get("/apple", (req, res)=>{
     res.send("Hello World apple");
