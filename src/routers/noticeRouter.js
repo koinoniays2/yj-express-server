@@ -12,7 +12,7 @@ const noticeRouter = express.Router(); // 라우터
 noticeRouter.get("", noticeList)
 noticeRouter.post("/write", noticeWrite);
 noticeRouter.get("/:id", noticeDetail);
-noticeRouter.get("/:id/update", noticeUpdate);
-noticeRouter.get("/:id/delete", noticeDelete);
+noticeRouter.post("/:id/update", noticeUpdate);
+noticeRouter.post("/:id/delete", noticeDelete);
 
 export default noticeRouter;

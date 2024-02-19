@@ -1,5 +1,6 @@
 // const express = require("express");
-import 'dotenv/config'
+import 'dotenv/config';
+import "./db";
 import express from "express";
 import morgan from "morgan";
 import cors from "cors";
@@ -14,6 +15,7 @@ const corsOption = {
 const PORT = process.env.PORT; // 호스팅 했을때에는 호스팅 사이트의 환경변수를 불러오고(설정해줘야함) 로컬에선 .env에있는 변수를 불러온다.
 const app = express();
 
+app.use(express.json()); // 데이터를 json형식으로 주고받겠다
 app.use(morgan("dev"));
 app.use(cors(corsOption));
 
