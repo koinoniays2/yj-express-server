@@ -7,6 +7,6 @@ const noticeSchema = new mongoose.Schema({
     writer: String
 })
 
-// mongoose에서 사용할 수 있는 모델로 만들기
-const Notice = mongoose.model("Notice", noticeSchema); //이름을 Notice로 지정한것
+// mongoose에서 사용할 수 있는 모델생성
+const Notice = mongoose.model("Notice", noticeSchema); //스키마(테이블)이름을 Notice로 지정한것
 export default Notice; // 외부에서 호출
