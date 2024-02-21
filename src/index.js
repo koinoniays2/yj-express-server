@@ -17,11 +17,7 @@ const app = express();
 
 app.use(express.json()); // 데이터를 json형식으로 주고받겠다
 app.use(morgan("dev"));
-app.use(cors({
-    origin: "http://localhost:3000", // 허용할 Origin
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE", // 허용할 HTTP 메소드
-    credentials: true, // 쿠키 및 인증 정보 전송 여부
-  }));
+app.use(cors(corsOption));
 
 // 라우터
 app.get("/", (req, res) => { res.send({ name: "root" }); });
