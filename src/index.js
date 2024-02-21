@@ -17,7 +17,10 @@ const app = express();
 
 app.use(express.json()); // 데이터를 json형식으로 주고받겠다
 app.use(morgan("dev"));
-app.use(cors(corsOption));
+app.use(cors({
+    origin: "http://localhost:3000", // 허용할 도메인
+    credentials: true, // 인증 정보를 포함할 수 있도록 허용
+  }));
 
 // 라우터
 app.get("/", (req, res) => { res.send({ name: "root" }); });
