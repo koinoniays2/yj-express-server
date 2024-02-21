@@ -18,7 +18,7 @@ export const noticeWrite = async (req,res) => {
             createdAt: Date.now(),
             writer
         })
-        return res.send({result: true, data});   
+        return res.send({result: true, data});
     }catch(error){
         console.log(error);
         return res.send({result: false});
