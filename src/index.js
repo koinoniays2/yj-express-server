@@ -9,7 +9,7 @@ import noticeRouter from './routers/noticeRouter';
 
 // cors옵션이 허용되는 주소만 적어주기(app.use(cors(여기넣기));)
 const corsOption = {
-    origin: "*"
+    origin: "http://localhost:3000"
 };
 
 const PORT = process.env.PORT; // 호스팅 했을때에는 호스팅 사이트의 환경변수를 불러오고(설정해줘야함) 로컬에선 .env에있는 변수를 불러온다.
