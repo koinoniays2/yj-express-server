@@ -11,7 +11,7 @@ const noticeRouter = express.Router(); // 라우터
 // notice 경로에 대한 요청을 처리(라우팅 그룹화)
 noticeRouter.get("", noticeList)
 noticeRouter.post("/write", noticeWrite);
-noticeRouter.get("/:id", noticeDetail);
+noticeRouter.get("/:id", noticeDetail); // 엔드포인트 :id
 noticeRouter.post("/:id/update", noticeUpdate);
 noticeRouter.post("/:id/delete", noticeDelete);
 
