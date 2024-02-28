@@ -9,7 +9,7 @@ import noticeRouter from './routers/noticeRouter';
 
 // cors옵션이 허용되는 주소만 적어주기(app.use(cors(여기넣기));)
 const corsOption = {
-    origin: ["http://localhost:3000", "https://unrivaled-jelly-1ec6a1.netlify.app"
+    origin: ["http://localhost:3000", "https://unrivaled-jelly-1ec6a1.netlify.app/"
   ],
 };
 
