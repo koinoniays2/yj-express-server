@@ -9,7 +9,8 @@ import noticeRouter from './routers/noticeRouter';
 
 // cors옵션이 허용되는 주소만 적어주기(app.use(cors(여기넣기));)
 const corsOption = {
-    origin: "http://localhost:3000"
+    origin: ["http://localhost:3000", "https://unrivaled-jelly-1ec6a1.netlify.app"
+  ],
 };
 
 const PORT = process.env.PORT; // 호스팅 했을때에는 호스팅 사이트의 환경변수를 불러오고(설정해줘야함) 로컬에선 .env에있는 변수를 불러온다.
@@ -17,10 +18,7 @@ const app = express();
 
 app.use(express.json()); // 데이터를 json형식으로 주고받겠다
 app.use(morgan("dev"));
-app.use(cors({
-    origin: "http://localhost:3000", // 허용할 도메인
-    credentials: true, // 인증 정보를 포함할 수 있도록 허용
-  }));
+app.use(cors(corsOption));
 
 // 라우터
 app.get("/", (req, res) => { res.send({ name: "root" }); });
