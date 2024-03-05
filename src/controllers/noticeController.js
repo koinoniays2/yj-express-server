@@ -2,8 +2,11 @@ import Notice from "../models/notice";
 
 // 리스트
 export const noticeList = async (req,res) => {
+    const OFFSET = 0;
+    const LIMIT = 10;
     try {
-        const data = await Notice.find({}) // find로 데이터베이스의 데이터 불러와서 변수에 담기
+        const data = await Notice.find({}).sort({createdAt: -1}).limit(LIMIT).skip(OFFSET); // find로 데이터베이스의 데이터 불러와서 변수에 담기
+        // sort 최신글 위로, limit(10): 리미트걸기, skip(2): 글 생략 => 페이지네이션 가능
         return res.send({ name: "list", data }); // 클라이언트에 send 해주기
     } catch(error) {
         console.log(error)
@@ -37,5 +40,28 @@ export const noticeDetail = async (req,res) => {
         console.log(error);
     }
 };
-export const noticeUpdate = (req,res) => res.send({name: "update"});
+export const noticeUpdate = async (req, res) => {
+    console.log(req);
+    // console.log(res.body);
+    // console.log(req.params);
+    // const { title, description, writer } = req.body;
+    // const {
+    //   params: { id },
+    // } = req;
+    const {
+      body: { title, description, writer },
+      params: { id },
+    } = req;
+  
+    try {
+      const data = await Notice.findByIdAndUpdate(id, {
+        title,
+        description,
+        writer,
+      });
+      res.send({ result: true, data });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 export const noticeDelete = (req,res) => res.send({name: "delete"});
