@@ -20,7 +20,8 @@ export const noticeWrite = async (req,res) => {
         const data = await Notice.create({ // 데이터베이스에 json 형식으로 create
             title,
             description,
-            createdAt: Date.now(),
+            createdAt: new Date(),
+            // createdAt: new Date(Date.now() + (1000 * 60 * 60 * 9)), //Date.now() : 표준시 (보통 프론트에서 변경함)
             writer
         })
         return res.send({result: true, data: data}); // 클라이언트가 요청한 것을 보냄
