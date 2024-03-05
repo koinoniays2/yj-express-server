@@ -68,4 +68,15 @@ export const noticeUpdate = async (req, res) => {
     }
   };
 // 삭제
-export const noticeDelete = (req,res) => res.send({name: "delete"});
+export const noticeDelete = async (req,res) => {
+    // console.log(req);
+    // console.log(req.params);
+    const { id } = req.params;
+    try{
+        await Notice.findByIdAndDelete(id);
+        res.send({ result: true }); // 요청 성공시 클라이언트에게 보내주는 데이터
+    } catch(error) {
+        console.log(error);
+        res.send({ result: false, error});
+    }
+};
