@@ -41,6 +41,7 @@ export const noticeDetail = async (req,res) => {
         console.log(error);
     }
 };
+// 업데이트
 export const noticeUpdate = async (req, res) => {
     console.log(req);
     // console.log(res.body);
@@ -59,10 +60,12 @@ export const noticeUpdate = async (req, res) => {
         title,
         description,
         writer,
+        updatedAt: new Date(Date.now()),
       });
       res.send({ result: true, data });
     } catch (error) {
       console.log(error);
     }
   };
+// 삭제
 export const noticeDelete = (req,res) => res.send({name: "delete"});

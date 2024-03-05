@@ -3,8 +3,9 @@ import mongoose from "mongoose";
 const noticeSchema = new mongoose.Schema({
     title: String,
     description: String,
+    writer: String,
     createdAt: Date,
-    writer: String
+    updatedAt: Date,
 })
 
 // mongoose에서 사용할 수 있는 모델생성
