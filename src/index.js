@@ -6,6 +6,7 @@ import morgan from "morgan";
 import cors from "cors";
 import appleRouter from './routers/appleRouter,';
 import noticeRouter from './routers/noticeRouter';
+import userRouter from './routers/userRouter';
 
 // cors옵션이 허용되는 주소만 적어주기(app.use(cors(여기넣기));)
 const corsOption = {
@@ -24,6 +25,7 @@ app.use(cors(corsOption));
 app.get("/", (req, res) => { res.send({ name: "root" }); });
 app.use("/apple", appleRouter);
 app.use("/notice", noticeRouter);
+app.use("/users", userRouter);
 // apple/character
 // apple/comics
 // apple/creators
