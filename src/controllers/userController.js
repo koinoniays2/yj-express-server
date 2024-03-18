@@ -52,6 +52,39 @@ export const memberLogin = async (req, res) => {
 
     // 패스워드가 맞으면 로그인
     if(ok) {
-        // session 로그인
+        // session 저장
+        req.session.save(() => { // 세션 저장
+            req.session.user = { // 세션 객체 내에서 데이터를 식별하기 위한 이름 : user
+                username: user.username,
+                email: user.email,
+            };
+            const data = req.session;
+            console.log(data); // user: { username: 'admin', email: 'admin@admin.com' }
+            res.send({result:true, data:data});
+        })
+    }
+}
+
+// 로그인 성공 시
+export const loginSuccess = async (req, res) => {
+    try{
+        if(req.session.user){
+            res.send({result: true, user: req.session.user, isLogin: true});
+        }else {
+            res.send({result: true, isLogin: false});
+        }
+    }catch(error){
+        console.log(error);
+    }
+}
+
+// 로그아웃
+export const logout = async (req, res) => {
+    try{
+        req.session.destroy(() => {
+            res.send({result: true, message: "로그아웃 성공"});
+        });
+    }catch(error){
+        console.log(error);
     }
 }
