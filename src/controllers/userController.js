@@ -13,7 +13,7 @@ export const memberRegister = async (req, res) => {
         // console.log(exist);
         if(exist) { // 중복시 데이터베이스에 저장하지않고 프론트로 보냄
             return res.send({ result:false, 
-                message: "이미 존재하는 아이디입니다." });
+                message: "이미 존재하는 아이디 또는 이메일입니다." });
         }
 
         // 패스워드 암호화(암호화할 비밀번호, 암호화횟수, )
@@ -61,7 +61,7 @@ export const memberLogin = async (req, res) => {
             const data = req.session;
             console.log(data); // user: { username: 'admin', email: 'admin@admin.com' }
             res.send({result:true, data:data});
-        })
+        });
     }
 }
 
@@ -86,5 +86,74 @@ export const logout = async (req, res) => {
         });
     }catch(error){
         console.log(error);
+    }
+}
+
+// 카카오 로그인
+export const kakaoLogin = async (req, res) => {
+    // step 1. 인가코드 받기
+    // console.log(req.query.code);
+    const { query: {code} } = req;
+    
+    // step 2. 토큰 받기
+    const KAKAO_BASE_PATH = "https://kauth.kakao.com/oauth/token";
+    const config = {
+        grant_type : "authorization_code",
+        client_id : process.env.CLIENT_ID,
+        redirect_uri : process.env.REDIRECT_URI,
+        code
+    };
+    const params = new URLSearchParams(config).toString();
+    const finalUrl = `${KAKAO_BASE_PATH}?${params}`
+    // console.log(finalUrl);
+    const data = await fetch(finalUrl, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        }
+    })
+    const tokenRequest = await data.json();
+    // console.log(tokenRequest);
+
+    // step 3. 사용자 정보 받기
+    if("access_token" in tokenRequest){
+        const {access_token} = tokenRequest;
+        const userRequest = await fetch("https://kapi.kakao.com/v2/user/me",{
+            headers: {
+                Authorization : `Bearer ${access_token}`
+            }
+        });
+        const userData = await userRequest.json();
+        // console.log(userData);
+        const {
+            properties:{nickname, profile_image},
+            kakao_account:{email}} = userData;
+        // console.log(nickname, profile_image, email);
+
+        // 사용자 정보 중에 이메일 값이 DB에 있으면 로그인, 이메일 값이 DB에 없으면 회원가입
+        const user = await User.findOne({email: email});
+        console.log(user);
+        if(user) {
+            // 로그인
+            req.session.save(() => {
+                req.session.user = {
+                    username: user.username,
+                    email: user.email,
+                    profileImage: user.profileImage
+                };
+                const data = req.session;
+                // console.log(data);
+                res.send({result:true, data:data});
+            });
+        }else{
+            // 회원가입
+            const userData = await User.create({
+                username: nickname,
+                email: email,
+                profileImage: profile_image,
+                createdAt: Date.now()
+            });
+            res.send({result:true, data:userData, message:"회원가입 완료"});
+        }
     }
 }
